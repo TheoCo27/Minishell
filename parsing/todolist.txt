@@ -1,0 +1,25 @@
+tester avec main de test (TO_BIN_main_test.c)
+
+import ft_printf, rename printf() calls ft_printf()
+
+-> 
+
+régler leaks -> garbage collector
+
+->
+
+protection mallocs + vérifier qu'on arrête bien tout si un seul échoue
+
+->
+
+norme
+
+->
+
+valider
+
+Attention : vérifier que toujours : 
+
+	- si erreur malloc, state->exit_code = 1
+	- si parse error, state->exit_code = 2
+
