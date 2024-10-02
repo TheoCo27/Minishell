@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 04:21:58 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:43:00 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../parsing/parsing.h"
 
 
 // int	ft_make_exec(int argc, char **argv, char **env)
@@ -41,9 +42,8 @@ int	ft_make_exec(t_token ***cmd_array, char **env)
 	int			status;
 
 	status = 0;
-	ft_check_argc(argc);
 	lst = NULL;
-	lst = ft_make_pipelst(argv);
+	lst = ft_make_pipelst(cmd_array);
 	if (!lst)
 		return (1);
 	if (ft_pipelst_size(lst) == 1)

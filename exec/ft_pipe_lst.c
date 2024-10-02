@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:09:56 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 15:53:16 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:53:40 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../parsing/parsing.h"
 
 t_info_exec	*ft_pipelst_new(void)
 {
@@ -109,10 +110,16 @@ void	ft_pipelst_clear(t_info_exec **lst)
 	{
 		temp = (*lst)->next;
 		//ici free le contenue du node;
-		ft_free_all((*lst)->infiles);
-		ft_free_all((*lst)->outfiles_trunc);
+		if ((*lst)->cmd)
+			free((*lst)->cmd);
+		if ((*lst)->arg)
+			ft_free_all((*lst)->arg);
+		if ((*lst)->infiles)
+			ft_free_all((*lst)->infiles);
+		if ((*lst)->outfiles_trunc)
+			ft_free_all((*lst)->outfiles_trunc);
+		if ((*lst)->outfiles_app)
 		ft_free_all((*lst)->outfiles_app);
-		free(*lst);
 		*lst = temp;
 	}
 	*lst = NULL;
@@ -127,9 +134,16 @@ void	ft_pipelst_printcmd(t_info_exec	**lst)
 	count = 1;
 	while(temp)
 	{
-		ft_putnbr_fd(count, 1);
-		ft_putstr_fd(" .", 1);
+		ft_putendl_fd("Commmand :", 1);
 		ft_putendl_fd(temp->cmd, 1);
+		ft_putendl_fd("Arg :", 1);
+		ft_print_tabstr(temp->arg);
+		ft_putendl_fd("Infiles :", 1);
+		ft_print_tabstr(temp->infiles);
+		ft_putendl_fd("Outfiles App:", 1);
+		ft_print_tabstr(temp->outfiles_app);
+		ft_putendl_fd("Outfiles Trunc:", 1);
+		ft_print_tabstr(temp->outfiles_trunc);
 		temp = temp->next;
 		count++;
 	}
@@ -160,11 +174,11 @@ t_info_exec	*ft_make_pipelst(t_token ***array)
 	t_info_exec	*lst;
 	t_info_exec	*new;
 
-	i = 1;
+	i = 0;
 	lst = NULL;
 	while(array[i])
 	{
-		new = ft_pipelst_new(argv[i]);
+		new = ft_token_to_exec(array[i]);
 		if (!new)
 			return (ft_pipelst_clear(&lst), NULL);
 		ft_pipelst_addback(&lst, new);

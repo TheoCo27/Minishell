@@ -3,10 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: theog <theog@student.42.fr>                +#+  +:+       +#+         #
+#    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 02:26:37 by theog             #+#    #+#              #
-#    Updated: 2024/10/02 03:16:37 by theog            ###   ########.fr        #
+#    Updated: 2024/10/02 18:49:22 by tcohen           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/02 02:26:37 by theog             #+#    #+#              #
+#    Updated: 2024/10/02 17:57:13 by tcohen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +27,8 @@ NAME = minitest
 
 # Compilateur et options
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lreadline  # Options de linking
+CFLAGS = -Wall -Wextra -Werror -fPIC -g3 # Added -fPIC for Position Independent Code
+LDFLAGS = -lreadline -fPIE  # Added -fPIE for Position Independent Executable
 
 # Dossiers
 SRC_EXEC_DIR = ./exec
@@ -28,7 +40,7 @@ OBJ_PARSING_DIR = ./parsing_obj
 # Fichiers sources pour exec et parsing
 EXEC_FILES = ft_all.c ft_check.c ft_child.c ft_exec_one.c ft_heredoc.c \
              ft_make_exec.c ft_path.c ft_pipe_lst.c ft_secure.c \
-             ft_set.c ft_while_cmd.c
+             ft_set.c ft_while_cmd.c ft_token_to_exec.c
 PARSING_FILES = TO_BIN_main_test.c TO_BIN_print_functions.c ft_join_all.c \
                 garbage_collector.c helpers.c make_token_and_append.c \
                 parse_quotes.c parsing_main.c replace_vars.c \
@@ -78,3 +90,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+

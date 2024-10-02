@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 15:20:57 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:46:30 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
-# include "../parsing/parsing.h"
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/stat.h>
+
+#ifndef TOKEN
+# define TOKEN 
+typedef struct s_token
+{
+	int		type;
+	char	*content;
+	int		is_special;
+}			t_token;
+#endif
 
 typedef struct s_heredoc
 {
@@ -103,5 +112,8 @@ int     ft_close_allpipes(t_info_exec  *lst);
 void    ft_set_pipes(t_info_exec **lst);
 int		ft_while_fork(t_info_exec **lst_cmd, char **env);
 int		ft_close_remaining_pipes(t_info_exec *cmd, t_info_exec **lst);
+//ft_token_to_exec.h
+t_info_exec *ft_token_to_exec(t_token **array);
+t_info_exec *ft_convert_redir_token(t_info_exec *cmd, t_token **array, int *i);
 
 #endif
