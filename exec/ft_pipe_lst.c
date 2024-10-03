@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:09:56 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 18:53:40 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/03 19:21:47 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,10 @@ void	ft_pipelst_printcmd(t_info_exec	**lst)
 	while(temp)
 	{
 		ft_putendl_fd("Commmand :", 1);
-		ft_putendl_fd(temp->cmd, 1);
+		if (temp->cmd)
+			ft_putendl_fd(temp->cmd, 1);
+		if (!temp->cmd)
+			ft_putendl_fd("cmd NULL", 1);
 		ft_putendl_fd("Arg :", 1);
 		ft_print_tabstr(temp->arg);
 		ft_putendl_fd("Infiles :", 1);
