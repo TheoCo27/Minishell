@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:09:56 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/03 19:21:47 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:38:55 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_info_exec	*ft_pipelst_new(void)
 	new->next = NULL;
 	new->prev = NULL;
 	new->pid = -1;
+	new->i_heredoc = -1;
 	new->infiles = ft_make_tabstr();
 	if (!new->infiles)
 		return (free(new), NULL);

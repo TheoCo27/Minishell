@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/05 14:32:32 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:38:15 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_info_exec
 	struct s_info_exec *next;
 	struct s_info_exec *prev;
 	t_heredoc	*heredoc;
+	int			i_heredoc;
 }			t_info_exec;
 
 //ft_heredoc.c
