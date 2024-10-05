@@ -9,7 +9,6 @@ int	main(int ac, char **av, char **envp)
 	t_token	***array;
 	t_state	*state;
 	char	*line;
-	t_info_exec	*lst;
 
 	array = malloc(sizeof(t_token **));
 	state = malloc(sizeof(t_state));
@@ -18,12 +17,7 @@ int	main(int ac, char **av, char **envp)
 	line = readline("minishell> ");
 	array = parseline(state, line);
 	if (array)
-	{
-		print_main_array(array);
-		lst = ft_make_pipelst(array);
-		ft_pipelst_printcmd(&lst);
-		ft_pipelst_clear(&lst);
-	}
+		ft_make_exec(array, envp);
 	else
 		printf("Array is NULL\n");
 	//destroy_gc(&(state->gc));

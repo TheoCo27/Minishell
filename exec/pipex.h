@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 18:46:30 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/05 14:32:32 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ int ft_fill_heredoc(char *limiter, int fd);
 
 //ft_make_exec.c
 //int	ft_make_exec(int argc, char **argv, char **env);
+int	ft_make_exec(t_token ***cmd_array, char **env);
 t_info_exec	*ft_make_pipelst(t_token ***array);
 
 //ft_child.c
-int		ft_cmd_arg(char *cmd, t_info_exec *info, t_info_exec **lst);
+// int		ft_cmd_arg(char *cmd, t_info_exec *info, t_info_exec **lst);
 int		ft_exec_child(t_info_exec *cmd, t_info_exec **lst, char **env, int status);
 int     ft_close_wrongpipes(t_info_exec *cmd, t_info_exec **lst);
 
