@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/05 14:38:15 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/05 16:54:13 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,8 @@ int		ft_close_remaining_pipes(t_info_exec *cmd, t_info_exec **lst);
 //ft_token_to_exec.h
 t_info_exec *ft_token_to_exec(t_token **array);
 t_info_exec *ft_convert_redir_token(t_info_exec *cmd, t_token **array, int *i);
+//ft_redir.c
+int ft_redir_all(t_info_exec *cmd, t_info_exec **lst);
+
 
 #endif

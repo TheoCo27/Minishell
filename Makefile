@@ -6,7 +6,7 @@
 #    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 02:26:37 by theog             #+#    #+#              #
-#    Updated: 2024/10/05 14:16:19 by tcohen           ###   ########.fr        #
+#    Updated: 2024/10/05 16:37:14 by tcohen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJ_PARSING_DIR = ./parsing_obj
 # Fichiers sources pour exec et parsing
 EXEC_FILES = ft_all.c ft_check.c ft_child.c ft_exec_one.c ft_heredoc.c \
              ft_make_exec.c ft_path.c ft_pipe_lst.c ft_secure.c \
-             ft_set.c ft_while_cmd.c ft_token_to_exec.c
+             ft_set.c ft_while_cmd.c ft_token_to_exec.c ft_redir.c
 PARSING_FILES = TO_BIN_main_test.c TO_BIN_print_functions.c ft_join_all.c \
                 garbage_collector.c helpers.c make_token_and_append.c \
                 parse_quotes.c parsing_main.c replace_vars.c \
