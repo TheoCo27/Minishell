@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_secure.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:48:02 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 03:58:10 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/06 18:22:54 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_open(char *file_name, char mode, t_info_exec *info, t_info_exec **lst)
 	if (mode == 'w')
 		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (mode == 'a')
-		fd = open(file_name, O_WRONLY | O_CREAT , 0644);
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (mode == 'r')
 		fd = open(file_name, O_RDONLY);
 	if (mode == 'h')
