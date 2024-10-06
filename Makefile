@@ -6,7 +6,7 @@
 #    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 02:26:37 by theog             #+#    #+#              #
-#    Updated: 2024/10/05 16:37:14 by tcohen           ###   ########.fr        #
+#    Updated: 2024/10/06 17:37:58 by tcohen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,11 @@ OBJ_PARSING_DIR = ./parsing_obj
 EXEC_FILES = ft_all.c ft_check.c ft_child.c ft_exec_one.c ft_heredoc.c \
              ft_make_exec.c ft_path.c ft_pipe_lst.c ft_secure.c \
              ft_set.c ft_while_cmd.c ft_token_to_exec.c ft_redir.c
-PARSING_FILES = TO_BIN_main_test.c TO_BIN_print_functions.c ft_join_all.c \
+PARSING_FILES = TO_BIN_main_test.c TO_BIN_print_functions.c pft_join_all.c \
                 garbage_collector.c helpers.c make_token_and_append.c \
-                parse_quotes.c parsing_main.c replace_vars.c \
-                split_array_tokens.c
+                make_token_and_append_helpers.c parsing_main.c parsing_main_helpers.c replace_vars.c \
+                pft_itoa.c pft_strdup.c pft_strjoin.c pft_substr.c split_array_tokens.c \
+				replace_vars_helpers.c
 
 # Fichiers objets (dans les dossiers correspondants)
 OBJ_EXEC = $(addprefix $(OBJ_EXEC_DIR)/, $(EXEC_FILES:.c=.o))
@@ -76,6 +77,9 @@ fclean: clean
 
 # Rebuild complet
 re: fclean all
+
+run:
+	valgrind --track-fds=yes --trace-children=yes --leak-check=full ./$(NAME)
 
 .PHONY: all clean fclean re
 

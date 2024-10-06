@@ -1,4 +1,3 @@
-//#include "../minishell.h" // decomment after code sync
 #include "parsing.h"
 
 void	print_token(t_token *token)
@@ -24,9 +23,9 @@ void	print_token(t_token *token)
 	else if (token->type == ARG)
 		printf("ARG\n");
 	if (token->content)
-		printf("Token content : %s\n", token->content);
+		printf("Token content : %s\n\n", token->content);
 	else
-		printf("Token content : NULL\n");
+		printf("Token content : NULL\n\n");
 }
 
 void	print_array(t_token **array)

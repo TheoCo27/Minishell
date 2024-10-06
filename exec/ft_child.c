@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 16:02:22 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/05 14:27:12 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/06 17:46:19 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_exec_child(t_info_exec *cmd, t_info_exec **lst, char **env, int status)
     if (status != 0)
 	    if (ft_dup2(cmd->prev->pipe_fd[0], 0) == -1)
 		    return (ft_close_remaining_pipes(cmd, lst), 1);
-    // ici call ft_redirection
+    ft_redir_all(cmd, lst);
     if (status != 1)
 	    if (ft_dup2(cmd->pipe_fd[1], 1) == -1)
 		    return (ft_close_remaining_pipes(cmd, lst), 1);

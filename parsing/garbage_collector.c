@@ -3,68 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:45:34 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/01 15:55:42 by vispinos         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:45:39 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../minishell.h" // decomment after code sync
 #include "parsing.h"
 
-t_list	*ft_lstnew(void *content)
+t_list	*new_gc(t_state *s)
 {
-	struct s_list	*list;
+	t_list	*list;
 
-	list = malloc(sizeof(struct s_list));
+	list = malloc(sizeof(t_list));
 	if (!list)
-		return (NULL);
-	list->content = content;
+	{
+		ft_putendl_fd("minishell: malloc failed", 2);
+		return (s->exit_code = 1, NULL);
+	}
+	list->content = NULL;
+	list->next = NULL;
 	return (list);
 }
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	*ft_malloc(size_t size, t_list **gc, t_state *s)
 {
-	struct s_list	*ptr;
+	t_list	*lst_elem;
 
-	ptr = *alst;
-	if (!ptr)
+	lst_elem = malloc(sizeof(t_list));
+	if (!lst_elem)
 	{
-		*alst = new;
-		return ;
+		ft_putendl_fd("minishell: malloc failed", 2);
+		return (s->exit_code = 1, NULL);
 	}
-	while (ptr->next != NULL)
+	lst_elem->content = malloc(size);
+	if (!lst_elem->content)
 	{
-		ptr = ptr->next;
+		ft_putendl_fd("minishell: malloc failed", 2);
+		return (s->exit_code = 1, free(lst_elem), NULL);
 	}
-	ptr->next = new;
-}
-
-void	*ft_malloc(size_t size, t_list *gc)
-{
-	void	*space;
-
-	space = malloc(size);
-	if (!space)
-		return (NULL);
-	if (!gc)
-		*gc = *ft_lstnew(space);
-	else
-		ft_lstadd_back(&gc, space);
-	return (space);
+	lst_elem->next = *gc;
+	*gc = lst_elem;
+	return (lst_elem->content);
 }
 
 void	destroy_gc(t_list *gc)
 {
-	t_list	*temp;
-
-	while (gc)
-	{
-		temp = (gc)->next;
-		if ((gc)->content)
-			free((gc)->content);
-		free(gc);
-		gc = temp;
-	}
+	if (!gc)
+		return ;
+	free(gc->content);
+	free(gc);
 }

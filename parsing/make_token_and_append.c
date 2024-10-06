@@ -6,20 +6,19 @@
 /*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 00:38:00 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/01 17:01:16 by vispinos         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:43:21 by vispinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../minishell.h" // decomment after code sync
 #include "parsing.h"
 
 static t_token	*make_token(int type, char *str, t_state *s)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));//ft_malloc(sizeof(t_token), &(s->gc));
+	token = ft_malloc(sizeof(t_token), &(s->gc), s);
 	if (!token)
-		return (s->exit_code = 1, NULL);
+		return (NULL);
 	token->type = type;
 	token->content = str;
 	if (token->type == CMD || token->type == ARG)
@@ -35,64 +34,55 @@ static t_token	**append_array(t_token *token, t_token **array, t_state *s)
 	int		len;
 	int		i;
 
-	//printf("Appending to array\n");
 	len = array_len(array);
-	//printf("Array len: %i\n", len);
-	new_array = malloc(sizeof(t_token *) * (len + 2));//ft_malloc(sizeof(t_token *) * (len + 2), &(s->gc));// 1 for null, 1 for new token
+	new_array = ft_malloc(sizeof(t_token *) * (len + 2), &(s->gc), s);
 	if (!new_array)
-		return (s->exit_code = 1, NULL);
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		new_array[i] = &(*(array[i]));
+		new_array[i] = array[i];
 		i++;
 	}
-	new_array[i] = &(*(token));
-	//printf("Printing new token appended:\n");
-	//print_token(new_array[i]);
+	new_array[i] = token;
 	new_array[i + 1] = NULL;
-	//printf("Arren len of new array: %i\n", array_len(new_array));
 	return (new_array);
 }
 
-t_token	**make_token_and_append(int type, char *str, t_token **array, t_state *s)
+t_token	**mt_append(int type, char *str, t_token **array, t_state *s)
 {
-	t_token *token;
+	t_token	*token;
 	t_token	**token_array;
 
 	token = make_token(type, str, s);
 	if (!token)
-		return (s->exit_code = 1, NULL);
-	//printf("New token made\n");
-	//print_token(token);
+		return (NULL);
 	token_array = append_array(token, array, s);
-	//printf("Len of array in make token and append, after appending: %i\n", array_len(token_array));
 	return (token_array);
 }
 
-t_token	**make_str_and_append_array(char *line, int i, t_token **array, char sep, t_state *s)
+t_token	**ms_append(char *line, t_token **array, t_state *s, t_msh msh)
 {
 	char	*str;
 	int		len;
 	int		type;
 
 	len = 0;
-	if (sep == NOQUOTE_SEP)
-		len = find_word_len(line, i);
+	if (msh.sep == NOQUOTE_SEP)
+		len = find_word_len(line, msh.i);
 	else
 	{
-		i++;
-		while (line[i + len] && line[i + len] != sep)
+		msh.i++;
+		while (line[msh.i + len] && line[msh.i + len] != msh.sep)
 			len++;
 	}
-	//printf("Len: %i\n", len);
-	str = malloc(sizeof(char) * (len + 1));//ft_malloc(sizeof(char) * (len + 1), &(s->gc));
+	str = ft_malloc(sizeof(char) * (len + 1), &(s->gc), s);
 	if (!str)
-		return (s->exit_code = 1, NULL);
-	ft_strlcpy(str, &line[i], (len + 1));
-	if (array_len(array) == 0 || array[array_len(array) - 1]->type == PIPE)
+		return (NULL);
+	ft_strlcpy(str, &line[msh.i], (len + 1));
+	if (is_cmd(array) == 1)
 		type = CMD;
 	else
 		type = ARG;
-	return (make_token_and_append(type, str, array, s));
+	return (mt_append(type, str, array, s));
 }

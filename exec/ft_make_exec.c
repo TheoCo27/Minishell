@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/02 18:43:00 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/06 17:48:46 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_make_exec(t_token ***cmd_array, char **env)
 	status = 0;
 	lst = NULL;
 	lst = ft_make_pipelst(cmd_array);
+	ft_pipelst_printcmd(&lst);
 	if (!lst)
 		return (1);
 	if (ft_pipelst_size(lst) == 1)
