@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:09:56 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/05 14:38:55 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/09 23:13:48 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,10 @@ t_info_exec	*ft_pipelst_new(void)
 	new->next = NULL;
 	new->prev = NULL;
 	new->pid = -1;
-	new->i_heredoc = -1;
-	new->infiles = ft_make_tabstr();
-	if (!new->infiles)
-		return (free(new), NULL);
-	new->outfiles_trunc = ft_make_tabstr();
-	if (!new->outfiles_trunc)
-		return (ft_free_all(new->infiles), free(new), NULL);
-	new->outfiles_app = ft_make_tabstr();
-	if (!new->outfiles_app)
-		return (ft_free_all(new->outfiles_trunc), ft_free_all(new->infiles), free(new), NULL);
+	new->file_lst = NULL;
 	new->arg = ft_make_tabstr();
 	if (!new->arg)
-		return (ft_free_all(new->outfiles_app), ft_free_all(new->outfiles_trunc), 
-			ft_free_all(new->infiles), free(new), NULL);
+		return (free(new), NULL);
 	return (new);
 }
 
@@ -92,12 +82,8 @@ void	ft_pipelst_clear_node(t_info_exec *node)
 		free(node->cmd);
 	if (node->arg)
 		ft_free_all(node->arg);
-	if (node->infiles)
-		ft_free_all((node)->infiles);
-	if (node->outfiles_trunc)
-		ft_free_all((node)->outfiles_trunc);
-	if (node->outfiles_app)
-	ft_free_all((node)->outfiles_app);
+	if (node->file_lst)
+		ft_filelstclear(&node->file_lst);
 	free(node);
 }
 
@@ -115,12 +101,8 @@ void	ft_pipelst_clear(t_info_exec **lst)
 			free((*lst)->cmd);
 		if ((*lst)->arg)
 			ft_free_all((*lst)->arg);
-		if ((*lst)->infiles)
-			ft_free_all((*lst)->infiles);
-		if ((*lst)->outfiles_trunc)
-			ft_free_all((*lst)->outfiles_trunc);
-		if ((*lst)->outfiles_app)
-		ft_free_all((*lst)->outfiles_app);
+		if ((*lst)->file_lst)
+			ft_filelstclear(&(*lst)->file_lst);
 		*lst = temp;
 	}
 	*lst = NULL;
@@ -142,12 +124,7 @@ void	ft_pipelst_printcmd(t_info_exec	**lst)
 			ft_putendl_fd("cmd NULL", 1);
 		ft_putendl_fd("Arg :", 1);
 		ft_print_tabstr(temp->arg);
-		ft_putendl_fd("Infiles :", 1);
-		ft_print_tabstr(temp->infiles);
-		ft_putendl_fd("Outfiles App:", 1);
-		ft_print_tabstr(temp->outfiles_app);
-		ft_putendl_fd("Outfiles Trunc:", 1);
-		ft_print_tabstr(temp->outfiles_trunc);
+		ft_print_filelst(&temp->file_lst);
 		temp = temp->next;
 		count++;
 	}

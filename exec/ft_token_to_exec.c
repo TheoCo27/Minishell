@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_to_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 04:41:59 by theog             #+#    #+#             */
-/*   Updated: 2024/10/05 14:25:22 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/09 23:15:05 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,28 @@ static int ft_is_redir_token(t_token *token)
 
 t_info_exec *ft_convert_redir_token(t_info_exec *cmd, t_token **array, int *i)
 {
+	t_file_lst *new;
+
     if (array[*i]->type == INFILE && array[(*i) + 1]->type == ARG)
     {
-        cmd->infiles = ft_tabstr_addback(array[(*i) + 1]->content, cmd->infiles);
-        if (!cmd->infiles)
-            return (ft_pipelst_clear_node(cmd), NULL);
+		new = ft_newfile(array[(*i) + 1]->content, 'r');
+		if (!new)
+			return (ft_pipelst_clear_node(cmd), NULL);
+        ft_fileadd_back(&cmd->file_lst, new);
     }
     if (array[*i]->type == OUTFILE_APPEND && array[(*i) + 1]->type == ARG)
     {
-        cmd->outfiles_app = ft_tabstr_addback(array[(*i) + 1]->content, cmd->outfiles_app);
-        if (!cmd->infiles)
-            return (ft_pipelst_clear_node(cmd), NULL);
+		new = ft_newfile(array[(*i) + 1]->content, 'a');
+		if (!new)
+			return (ft_pipelst_clear_node(cmd), NULL);
+        ft_fileadd_back(&cmd->file_lst, new);
     }
     if (array[*i]->type == OUTFILE_TRUNCATE && array[(*i) + 1]->type == ARG)
     {
-        cmd->outfiles_trunc = ft_tabstr_addback(array[(*i) + 1]->content, cmd->outfiles_trunc);
-        if (!cmd->outfiles_trunc)
-            return (ft_pipelst_clear_node(cmd), NULL);
+		new = ft_newfile(array[(*i) + 1]->content, 'w');
+		if (!new)
+			return (ft_pipelst_clear_node(cmd), NULL);
+        ft_fileadd_back(&cmd->file_lst, new);
     }
     return (cmd);
 }

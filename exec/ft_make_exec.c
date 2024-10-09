@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/06 17:48:46 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/09 23:24:00 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@
 // 	return (status);
 // }
 
+// ici print only
+// int	ft_make_exec(t_token ***cmd_array, char **env)
+// {
+// 	t_info_exec	*lst;
+// 	int			status;
+
+// 	status = 0;
+// 	lst = NULL;
+// 	lst = ft_make_pipelst(cmd_array);
+// 	ft_pipelst_printcmd(&lst);
+// 	(void)env;
+// 	return (status);
+// }
+
+// GOOOD FUNCTIION HERE
 int	ft_make_exec(t_token ***cmd_array, char **env)
 {
 	t_info_exec	*lst;

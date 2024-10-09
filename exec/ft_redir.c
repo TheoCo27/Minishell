@@ -3,82 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:30:55 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/06 18:09:19 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/09 23:15:29 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	ft_redir_infile(t_info_exec *cmd, t_info_exec **lst)
+static int ft_redir_one(t_info_exec *cmd, t_file_lst *file, t_info_exec **lst)
 {
-	int	i;
-
-	i = 0;
-	while(cmd->infiles[i])
+	if (file->type == 'a' || file->type == 'w')
 	{
-		cmd->in_fd = ft_open(cmd->infiles[i], 'r', cmd, lst);
+		cmd->out_fd = ft_open(file->name, file->type, cmd, lst);
+		if (ft_dup2(cmd->out_fd, 1) == -1)
+		{
+			close(cmd->out_fd);
+			ft_close_pipe(cmd->pipe_fd);//I think just close pipd_fd[1]
+			ft_close_remaining_pipes(cmd, lst);
+			ft_pipelst_clear(lst);
+			exit(errno);
+		}
+	}
+	if (file->type == 'r')
+	{
+		cmd->in_fd = ft_open(file->name, file->type, cmd, lst);
 		if (ft_dup2(cmd->in_fd, 0) == -1)
 		{
-			close(cmd->in_fd);
-			ft_close_pipe(cmd->pipe_fd);//I think just close pipd_fd[1]
-			ft_close_remaining_pipes(cmd, lst);
-			ft_pipelst_clear(lst);
-			exit(errno);
-		}
-		i++;
-	}
-	return (0);
-}
-
-static int	ft_redir_outfiles_trunc(t_info_exec *cmd, t_info_exec **lst)
-{
-	int	i;
-
-	i = 0;
-	while(cmd->outfiles_trunc[i])
-	{
-		cmd->out_fd = ft_open(cmd->outfiles_trunc[i], 'w', cmd, lst);
-		if (ft_dup2(cmd->out_fd, 1) == -1)
-		{
 			close(cmd->out_fd);
 			ft_close_pipe(cmd->pipe_fd);//I think just close pipd_fd[1]
 			ft_close_remaining_pipes(cmd, lst);
 			ft_pipelst_clear(lst);
 			exit(errno);
 		}
-		i++;
-	}
-	return (0);
-}
-
-static int	ft_redir_outfiles_app(t_info_exec *cmd, t_info_exec **lst)
-{
-	int	i;
-
-	i = 0;
-	while(cmd->outfiles_app[i])
-	{
-		cmd->out_fd = ft_open(cmd->outfiles_app[i], 'a', cmd, lst);
-		if (ft_dup2(cmd->out_fd, 1) == -1)
-		{
-			close(cmd->out_fd);
-			ft_close_pipe(cmd->pipe_fd);//I think just close pipd_fd[1]
-			ft_close_remaining_pipes(cmd, lst);
-			ft_pipelst_clear(lst);
-			exit(errno);
-		}
-		i++;
 	}
 	return (0);
 }
 
 int ft_redir_all(t_info_exec *cmd, t_info_exec **lst)
 {
-	ft_redir_infile(cmd, lst);
-	ft_redir_outfiles_app(cmd, lst);
-	ft_redir_outfiles_trunc(cmd, lst);
+	t_file_lst	*file;
+
+	file = cmd->file_lst;
+	while(file)
+	{
+		ft_redir_one(cmd, file, lst);
+		file = file->next;
+	}
 	return (0);
 }

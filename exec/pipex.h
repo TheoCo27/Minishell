@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/06 17:27:13 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/09 22:46:58 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,17 @@
 # include <errno.h>
 # include <sys/stat.h>
 
+
+typedef struct s_file
+{
+	char			type;
+	char			*name;
+	char			*delimiter;
+	struct	s_file	*next;
+}					t_file_lst;
+
 #ifndef TOKEN
-# define TOKEN 
+# define TOKEN 	
 typedef struct s_token
 {
 	int		type;
@@ -45,17 +54,20 @@ typedef struct s_info_exec
 	int		in_out_fd;
 	int		in_fd;
 	int		out_fd;
-	char	**infiles;
-	char	**outfiles_trunc;
-	char	**outfiles_app;
+	t_file_lst	*file_lst;
 	char	**env;
 	size_t	index;
 	int		pid;
 	struct s_info_exec *next;
 	struct s_info_exec *prev;
-	t_heredoc	*heredoc;
-	int			i_heredoc;
 }			t_info_exec;
+
+// ft_file_lst.c
+t_file_lst	*ft_newfile(char *content, char type);
+t_file_lst	*ft_filelast(t_file_lst *lst);
+void	ft_fileadd_back(t_file_lst **lst, t_file_lst *new);
+void	ft_filelstclear(t_file_lst **lst);
+void    ft_print_filelst(t_file_lst **lst);
 
 //ft_heredoc.c
 t_heredoc *ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst);

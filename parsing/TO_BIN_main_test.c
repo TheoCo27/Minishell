@@ -3,6 +3,28 @@
 #include <readline/history.h>
 #include "../exec/pipex.h"
 
+
+
+// int main()
+// {
+// 	t_file_lst *lst;
+// 	t_file_lst *file1;
+// 	t_file_lst *file2;
+// 	t_file_lst *file3;
+// 	t_file_lst *file4;
+
+// 	lst = NULL;
+// 	file1 = ft_newfile("EOF", 'h');
+// 	ft_fileadd_back(&lst, file1);
+// 	file2 = ft_newfile("infile", 'i');
+// 	ft_fileadd_back(&lst, file2);
+// 	file3 = ft_newfile("trunc", 't');
+// 	ft_fileadd_back(&lst, file3);
+// 	file4 = ft_newfile("app", 'a');
+// 	ft_fileadd_back(&lst, file4);
+// 	ft_print_filelst(&lst);
+
+// }
 int	main(int ac, char **av, char **envp)
 {
 	t_token	***array;
