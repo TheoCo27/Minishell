@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_one.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 02:11:10 by theog             #+#    #+#             */
-/*   Updated: 2024/10/06 17:51:10 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/10 00:54:26 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_only_child(t_info_exec *cmd, char **env, t_info_exec **lst)
 	    ft_execve(cmd, lst);
     }
     status = ft_wait_pids(*lst, status);
+    ft_destroy_heredocs(lst);
     ft_pipelst_clear(lst);
 	return (status);
 }

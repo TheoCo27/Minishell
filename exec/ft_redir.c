@@ -6,14 +6,33 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:30:55 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/09 23:15:29 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 00:31:52 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+static int ft_heredoc(t_info_exec *cmd, t_file_lst *file, t_info_exec **lst)
+{
+	if (file->type == 'h')
+	{
+		ft_fill_heredoc(file->delimiter, file->name, cmd, lst);
+		cmd->in_fd = ft_open(file->name, 'r', cmd, lst);
+		if (ft_dup2(cmd->in_fd, 0) == -1)
+		{
+			close(cmd->out_fd);
+			ft_close_pipe(cmd->pipe_fd);//I think just close pipd_fd[1]
+			ft_close_remaining_pipes(cmd, lst);
+			ft_pipelst_clear(lst);
+			exit(errno);
+		}
+	}
+	return (0);
+}
+
 static int ft_redir_one(t_info_exec *cmd, t_file_lst *file, t_info_exec **lst)
 {
+	ft_heredoc(cmd, file, lst);
 	if (file->type == 'a' || file->type == 'w')
 	{
 		cmd->out_fd = ft_open(file->name, file->type, cmd, lst);

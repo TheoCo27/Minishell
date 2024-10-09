@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/09 23:24:00 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 00:55:20 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 // 	status = 0;
 // 	lst = NULL;
 // 	lst = ft_make_pipelst(cmd_array);
+// 	ft_name_heredocs(&lst);
 // 	ft_pipelst_printcmd(&lst);
 // 	(void)env;
 // 	return (status);
@@ -59,6 +60,7 @@ int	ft_make_exec(t_token ***cmd_array, char **env)
 	status = 0;
 	lst = NULL;
 	lst = ft_make_pipelst(cmd_array);
+	ft_name_heredocs(&lst);
 	ft_pipelst_printcmd(&lst);
 	if (!lst)
 		return (1);
@@ -69,6 +71,7 @@ int	ft_make_exec(t_token ***cmd_array, char **env)
 	if (ft_pipelst_size(lst) > 1)
     	ft_close_allpipes(lst);
     status = ft_wait_pids(lst, status);
+	ft_destroy_heredocs(&lst);
     ft_pipelst_clear(&lst);
 	return (status);
 }

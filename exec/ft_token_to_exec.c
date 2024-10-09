@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 04:41:59 by theog             #+#    #+#             */
-/*   Updated: 2024/10/09 23:15:05 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/09 23:45:41 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ static t_info_exec	*ft_token_to_cmd(t_token *token, t_info_exec *cmd)
 		return (ft_pipelst_clear_node(cmd), NULL);
 	return (cmd);
 }
+
+static t_info_exec *ft_convert_heredoc_token(t_info_exec *cmd, t_token **array, int *i)
+{
+	t_file_lst *new;
+
+    if (array[*i]->type == HEREDOC && array[(*i) + 1]->type == ARG)
+    {
+		new = ft_newfile(array[(*i) + 1]->content, 'h');
+		if (!new)
+			return (ft_pipelst_clear_node(cmd), NULL);
+        ft_fileadd_back(&cmd->file_lst, new);
+    }
+	return (cmd);
+}
 t_info_exec *ft_token_to_exec(t_token **array)
 {
 	t_info_exec *cmd;
@@ -76,6 +90,7 @@ t_info_exec *ft_token_to_exec(t_token **array)
 	while(array[i])
 	{
 		ft_convert_redir_token(cmd, array, &i);
+		ft_convert_heredoc_token(cmd, array, &i);
 		if (array[i]->type == CMD)
 			if (ft_token_to_cmd(array[i], cmd) == NULL)
 				return (NULL);

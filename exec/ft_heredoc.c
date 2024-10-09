@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:59:29 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/03 18:59:46 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/10 00:55:33 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,45 @@ static char	*ft_anti_fuck_heredoc(char *file_name)
 	return (file_name);
 }
 
-int ft_fill_heredoc(char *limiter, int fd)
+int	ft_name_heredocs(t_info_exec **lst)
+{
+	t_info_exec *cmd;
+	t_file_lst	*file;
+	char		*name;
+
+	cmd = *lst;
+	name = ft_strdup("heredoc");
+	if (!name)
+		return (-1);
+	while(cmd)
+	{
+		file = cmd->file_lst;
+		while(file)
+		{
+			if (file->type == 'h')
+			{
+				name = ft_strfree_s1_join(name, "1");
+				name = ft_anti_fuck_heredoc(name);
+				if (!name)
+					return (-1);
+				file->name = ft_strdup(name);
+				if (!file->name)
+					return (-1);
+			}
+			file = file->next;
+		}
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst)
 {
 	char	*line;
 	size_t	limiter_len;
+	int		fd;
 	
+	fd = ft_open(filename, 'h', cmd, lst);
 	line = NULL;
 	limiter_len = ft_strlen(limiter);
 	while(1)
@@ -61,15 +95,29 @@ int ft_fill_heredoc(char *limiter, int fd)
 		ft_putstr_fd(line, fd);
 		free(line);
 	}
+	close (fd);
 	return (0);
 }
 
-int ft_destroy_heredoc(t_heredoc *h)
+int ft_destroy_heredocs(t_info_exec **lst)
 {
-	close(h->fd_heredoc);
-	unlink(h->heredoc_name);
-	free(h->heredoc_name);
-	free(h);
+	t_info_exec *cmd;
+	t_file_lst	*file;
+
+	cmd = *lst;
+	while(cmd)
+	{
+		file = cmd->file_lst;
+		while(file)
+		{
+			if (file->type == 'h')
+			{
+				unlink(file->name);
+			}
+			file = file->next;
+		}
+		cmd = cmd->next;
+	}
 	return (0);
 }
 t_heredoc *ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst)
