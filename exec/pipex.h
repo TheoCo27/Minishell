@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 00:35:04 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 19:09:24 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/stat.h>
+# include "../minishell.h"
 
 
 typedef struct s_file
@@ -27,16 +28,6 @@ typedef struct s_file
 	char			*delimiter;
 	struct	s_file	*next;
 }					t_file_lst;
-
-#ifndef TOKEN
-# define TOKEN 	
-typedef struct s_token
-{
-	int		type;
-	char	*content;
-	int		is_special;
-}			t_token;
-#endif
 
 typedef struct s_heredoc
 {

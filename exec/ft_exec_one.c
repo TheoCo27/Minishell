@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_one.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 02:11:10 by theog             #+#    #+#             */
-/*   Updated: 2024/10/10 00:54:26 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 19:10:47 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "../parsing/parsing.h"
 
 int	ft_only_child(t_info_exec *cmd, char **env, t_info_exec **lst)
 {

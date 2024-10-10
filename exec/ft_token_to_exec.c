@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_to_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 04:41:59 by theog             #+#    #+#             */
-/*   Updated: 2024/10/09 23:45:41 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 19:09:55 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "../parsing/parsing.h"
 
 static int ft_is_redir_token(t_token *token)
 {

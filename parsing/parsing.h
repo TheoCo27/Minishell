@@ -6,49 +6,14 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:03:47 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/06 17:28:29 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/10 19:07:43 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "libft/libft.h" // will need to remove after code sync
-# include "stdio.h"
-
-# define LEXICAL
-# define INFILE 1
-# define HEREDOC 2
-# define OUTFILE_TRUNCATE 3
-# define OUTFILE_APPEND 4
-# define PIPE 5
-# define CMD 6
-# define ARG 7
-
-# define QUOTES
-# define SQUOTE 39
-# define DQUOTE 34
-# define NOQUOTE_SEP 0
-
-#ifndef TOKEN
-# define TOKEN 
-typedef struct s_token
-{
-	int		type;
-	char	*content;
-	int		is_special;
-}			t_token;
-#endif
-
-
-#ifndef LIST
-# define LIST 
-typedef struct      s_list
-{
-    void            *content;
-    struct s_list   *next;
-}                   t_list;
-#endif
+# include "minishell.h"
 
 /*
 nvl : next var len
@@ -82,14 +47,6 @@ typedef struct s_token_array_maker
 	int		word_len;
 	t_msh	msh;
 }			t_am;
-
-//ONLY HERE FOR TESTING, USE REAL ONE FROM MAIN .H FILE AFTER
-typedef struct s_state
-{
-	char	**env;
-	int		exit_code;
-	t_list	*gc;
-}			t_state;
 
 /*
 libft with state

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 00:55:20 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 19:11:06 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "../parsing/parsing.h"
 
 
 // int	ft_make_exec(int argc, char **argv, char **env)

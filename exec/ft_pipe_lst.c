@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 19:09:56 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/09 23:13:48 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/10 19:11:30 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "../parsing/parsing.h"
 
 t_info_exec	*ft_pipelst_new(void)
 {
