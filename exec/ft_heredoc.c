@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:59:29 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 00:55:33 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/11 01:47:13 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,49 @@ int	ft_name_heredocs(t_info_exec **lst)
 	return (0);
 }
 
+
+int ft_checkif_heredoc(void)
+{
+	char	*line;
+
+	line = NULL;
+	line = get_next_line(1);
+	if (!line)
+		return (-1);
+	if (ft_strncmp(line, "heredoc> ", 9) == 0)
+		return(free(line), 1);
+	free(line);
+	return (0);
+}
+
+// int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst)
+// {
+// 	char	*line;
+// 	size_t	limiter_len;
+// 	int		fd;
+	
+// 	fd = ft_open(filename, 'h', cmd, lst);
+// 	line = NULL;
+// 	limiter_len = ft_strlen(limiter);
+// 	// if (ft_checkif_heredoc() == 1)
+// 	// 	ft_fill_heredoc(limiter, filename, cmd, lst);
+// 	while(1)
+// 	{
+// 		ft_putstr_fd("heredoc> ", 1);
+// 		line = get_next_line(0);
+// 		if (!line)
+// 			break;
+// 		if (ft_strncmp(line, limiter, limiter_len) == 0 && line[limiter_len] == '\n')
+// 		{
+// 			free(line);
+// 			break;
+// 		}
+// 		ft_putstr_fd(line, fd);
+// 		free(line);
+// 	}
+// 	close (fd);
+// 	return (0);
+// }
 int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst)
 {
 	char	*line;
@@ -81,20 +124,22 @@ int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec
 	fd = ft_open(filename, 'h', cmd, lst);
 	line = NULL;
 	limiter_len = ft_strlen(limiter);
+	// if (ft_checkif_heredoc() == 1)
+	// 	ft_fill_heredoc(limiter, filename, cmd, lst);
 	while(1)
 	{
-		ft_putstr_fd("heredoc> ", 1);
-		line = get_next_line(0);
+		line = readline("heredoc> ");
 		if (!line)
 			break;
-		if (ft_strncmp(line, limiter, limiter_len) == 0 && line[limiter_len] == '\n')
+		if (ft_strncmp(line, limiter, limiter_len) == 0)
 		{
 			free(line);
 			break;
 		}
-		ft_putstr_fd(line, fd);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	rl_on_new_line();
 	close (fd);
 	return (0);
 }

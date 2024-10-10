@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
+#    By: theog <theog@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 02:26:37 by theog             #+#    #+#              #
-#    Updated: 2024/10/10 20:00:09 by tcohen           ###   ########.fr        #
+#    Updated: 2024/10/11 01:34:47 by theog            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,11 @@ NAME = minitest
 # Compilateur et options
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fPIC -g3
-LDFLAGS = -lreadline -fPIE
+
+# Chemin de la bibliothèque readline
+READLINE_DIR = /usr/local/opt/readline
+INCLUDES = -I./ -I$(SRC_EXEC_DIR) -I$(SRC_PARSING_DIR) -I$(SRC_BUILTINS_DIR) -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
+LDFLAGS = -L$(READLINE_DIR)/lib -lreadline -fPIE
 
 # Dossiers
 SRC_EXEC_DIR = ./exec
@@ -47,9 +51,6 @@ OBJ_BUILTINS = $(addprefix $(OBJ_BUILTINS_DIR)/, $(BUILTINS_FILES:.c=.o))
 
 # Bibliothèque libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
-# Inclusions
-INCLUDES = -I./ -I$(SRC_EXEC_DIR) -I$(SRC_PARSING_DIR) -I$(SRC_BUILTINS_DIR) -I$(LIBFT_DIR)
 
 # Règles
 all: $(NAME)
