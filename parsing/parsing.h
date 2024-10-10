@@ -6,14 +6,11 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:03:47 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/10 19:07:43 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/10 19:19:14 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
-
-# include "minishell.h"
+#include "../minishell.h"
 
 /*
 nvl : next var len
@@ -75,6 +72,7 @@ garbage_collector.c
 t_list	*new_gc(t_state *s);
 void	*ft_malloc(size_t size, t_list **gc, t_state *s);
 void	destroy_gc(t_list *gc);
+void	shallow_clear_gc(t_list *gc, char **env);
 
 /*
 make_token_and_append.c
@@ -129,5 +127,3 @@ t_token	***ft_split_array_tokens(t_token **t_a, int type, t_state *s);
 void	print_token(t_token *token);
 void	print_array(t_token **array);
 void	print_main_array(t_token ***main_array);
-
-#endif

@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 19:02:09 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 19:12:55 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/10 19:21:21 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ typedef struct s_token
 	char	*content;
 	int		is_special;
 }			t_token;
+
+int	ft_make_exec(t_token ***cmd_array, char **env);
 
 #endif
