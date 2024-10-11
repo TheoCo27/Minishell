@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:44:50 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 23:20:35 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:19:50 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	ft_make_exec(t_token ***cmd_array, char **env)
 	if (!lst)
 		return (-1);
 	ft_name_heredocs(&lst);
+	ft_fill_all_heredocs(&lst);
 	ft_pipelst_printcmd(&lst);
 	if (!lst)
 		return (1);

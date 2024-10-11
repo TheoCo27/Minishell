@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:30:55 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 00:31:52 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:18:42 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int ft_heredoc(t_info_exec *cmd, t_file_lst *file, t_info_exec **lst)
 {
 	if (file->type == 'h')
 	{
-		ft_fill_heredoc(file->delimiter, file->name, cmd, lst);
 		cmd->in_fd = ft_open(file->name, 'r', cmd, lst);
 		if (ft_dup2(cmd->in_fd, 0) == -1)
 		{

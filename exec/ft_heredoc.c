@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:59:29 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/11 01:47:13 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:17:58 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,23 @@ int	ft_name_heredocs(t_info_exec **lst)
 }
 
 
-int ft_checkif_heredoc(void)
+int ft_fill_all_heredocs(t_info_exec **lst)
 {
-	char	*line;
+	t_info_exec *cmd;
+	t_file_lst	*file;
 
-	line = NULL;
-	line = get_next_line(1);
-	if (!line)
-		return (-1);
-	if (ft_strncmp(line, "heredoc> ", 9) == 0)
-		return(free(line), 1);
-	free(line);
+	cmd = *lst;
+	while(cmd)
+	{
+		file = cmd->file_lst;
+		while(file)
+		{
+			if (file->type == 'h')
+				ft_fill_heredoc(file->delimiter, file->name, cmd, lst);
+			file = file->next;
+		}
+		cmd = cmd->next;
+	}
 	return (0);
 }
 
@@ -124,8 +130,6 @@ int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec
 	fd = ft_open(filename, 'h', cmd, lst);
 	line = NULL;
 	limiter_len = ft_strlen(limiter);
-	// if (ft_checkif_heredoc() == 1)
-	// 	ft_fill_heredoc(limiter, filename, cmd, lst);
 	while(1)
 	{
 		line = readline("heredoc> ");
@@ -139,7 +143,6 @@ int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	rl_on_new_line();
 	close (fd);
 	return (0);
 }

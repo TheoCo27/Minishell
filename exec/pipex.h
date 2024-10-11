@@ -6,7 +6,7 @@
 /*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:51:13 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 23:25:18 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:18:17 by theog            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	ft_name_heredocs(t_info_exec **lst);
 t_heredoc *ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst);
 int ft_destroy_heredocs(t_info_exec **lst);
 int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst);
+int ft_fill_all_heredocs(t_info_exec **lst);
 
 //ft_make_exec.c
 //int	ft_make_exec(int argc, char **argv, char **env);
