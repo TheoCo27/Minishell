@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:15:24 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/10 20:06:17 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 15:03:32 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "unistd.h"
 # include "stdio.h"
 # include "stdlib.h"
+# include "garbage_collector.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
@@ -35,14 +36,15 @@ typedef struct s_index
 	size_t	check;
 }	t_index;
 
-#ifndef LIST
-# define LIST 
-typedef struct      s_list
+# ifndef LIST
+#  define LIST
+
+typedef struct s_list
 {
-    void            *content;
-    struct s_list   *next;
-}                   t_list;
-#endif
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+# endif
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
@@ -72,7 +74,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
@@ -96,13 +98,13 @@ size_t	ft_check_new_line(char *str);
 char	*ft_clean_line(char *line);
 //Add on
 int		ft_charcmp(char c, char to_cmp);
-char	*ft_strfree_s1_join(char *s1_to_free, char *s2);
+char	*ft_str_free_s1_join(char *s1_to_g_free, char *s2);
 int		ft_str_setonly(char *str, char *set);
 size_t	ft_wdcount(const char *str, char c);
-void	*ft_free_all(char **tab);
+void	ft_free_all(char **tab);
 // ft_tab_str.c
 char	**ft_make_tabstr(void);
-char **ft_temptab_totab(char **tab_dest, char **tab_src);
+char	**ft_temptab_totab(char **tab_dest, char **tab_src);
 char	**ft_tabstr_addback(char *str, char **tab_str);
 size_t	ft_tabstr_len(char **tabstr);
 char	**ft_tabstr_copy(char **tabstr);

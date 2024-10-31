@@ -6,7 +6,7 @@
 #    By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 12:10:54 by tcohen            #+#    #+#              #
-#    Updated: 2024/10/02 18:23:44 by tcohen           ###   ########.fr        #
+#    Updated: 2024/10/26 14:56:06 by tcohen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ FUNCADDITIONAL =	ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
 			ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 			get_next_line.c get_next_line_utils.c ft_str_free_join.c ft_charcmp.c \
 			ft_str_setonly.c ft_tabstr.c ft_atleast_set.c ft_count_char.c \
-			ft_get_index.c
+			ft_get_index.c garbage.c ft_malloc.c ft_free.c ft_tabstrprint.c
 
 BONUS =	$(addprefix ft_, $(addsuffix _bonus.c, lstadd_back \
 		lstadd_front \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:45:15 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/05 18:14:13 by vispinos         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:05:49 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*replace_vars(char *str, t_state *s)
 	t_var_replacer	vr;
 
 	init_vr(&vr);
-	while (str[vr.i])
+	while (str && vr.i < (int)ft_strlen(str))
 	{
 		vr.i_save = vr.i;
 		set_quotes_mode(&vr.sq, &vr.dq, str[vr.i]);

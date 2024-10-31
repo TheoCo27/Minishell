@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:35:51 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/10 20:08:30 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 14:04:45 by vispinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int	is_present(char *env_elem, char **vars)
 	while (vars[i])
 	{
 		if (!ft_strncmp(env_elem, vars[i], ft_strlen(vars[i]))
-			&& (!env_elem[ft_strlen(vars[i])]
-				|| env_elem[ft_strlen(vars[i])] == '='))
+			&& (ft_strlen(env_elem) == ft_strlen(vars[i])
+				|| (ft_strlen(env_elem) > ft_strlen(vars[i])
+					&& env_elem[ft_strlen(vars[i])] == '=')))
 			return (1);
 		i++;
 	}

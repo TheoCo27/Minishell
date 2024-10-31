@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:48:33 by tcohen            #+#    #+#             */
-/*   Updated: 2024/08/21 15:51:00 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:57:28 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*make_word(const char *s, char c, size_t start)
 	i = 0;
 	end = ft_wrd_end(s, c, start);
 	len = (end - start);
-	str = (char *)malloc((sizeof(char)) * (len + 1));
+	str = (char *)g_malloc((sizeof(char)) * (len + 1));
 	if (!str)
 		return (NULL);
 	while (s[start + i] && s[start + i] != c)
@@ -88,7 +88,7 @@ char	**ft_split(const char *s, char c)
 		{
 			tab[w_count] = make_word(s, c, i);
 			if (!tab[w_count])
-				return (ft_free_all(tab));
+				return (ft_free_all(tab), NULL);
 			w_count++;
 		}
 		i++;

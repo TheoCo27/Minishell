@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_vars_helpers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:12:05 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/05 18:12:35 by vispinos         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:20:03 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	set_vals_dollar(t_var_replacer *vr, t_state *s)
 	vr->nvv = pft_itoa(s->exit_code, s);
 	vr->cut = 2;
 	vr->i += ft_strlen(vr->nvv) - vr->cut;
+	if (vr->i < 0)
+		vr->i = 0;
 }
 
 void	set_vals_var(t_var_replacer *vr, t_state *s, char *str)

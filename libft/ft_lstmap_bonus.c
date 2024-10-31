@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 12:11:53 by tcohen            #+#    #+#             */
-/*   Updated: 2024/06/12 16:41:03 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/13 19:52:06 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*void del(void *content)
 {
 	if(content)
-		free(content);
+		g_free(content);
 }
 void *upc(void *content)
 {

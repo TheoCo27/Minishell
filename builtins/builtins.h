@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:57:29 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/10 19:58:11 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/25 16:03:08 by vispinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_pwd(t_state *s);
 
 /* detect_and_launch.c */
 int		launch_if_builtin(char **array, t_state *s);
-
+int		detect_builtin(char *cmd);
 /* ft_cd.c */
 int		ft_cd(char **array, t_state *s);
 char	*ft_join_key_value(char *str1, char *str2, t_state *s);
@@ -47,6 +47,7 @@ int		ft_export(char **vars, t_state *s);
 /* ft_export_helpers.c */
 char	**char_star_array_sort(char **array, t_state *s);
 char	**make_char_s_arr_from_str(char *str, t_state *s);
+void	put_export_unvalid_regex(char *str, int *code, int *i);
 
 /* ft_unset.c */
 /* sal -> string array len */

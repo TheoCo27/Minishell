@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 12:11:43 by tcohen            #+#    #+#             */
-/*   Updated: 2024/06/12 16:45:49 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/13 19:52:06 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*void del(void *content)
 {
 	if(content)
-		free(content);
+		g_free(content);
 }*/
 
 void	ft_lstdelone(t_list *lst, void (*del)(void*))
@@ -23,7 +23,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 	if (!lst || !del)
 		return ;
 	del(lst->content);
-	free(lst);
+	g_free(lst);
 }
 
 /*int main()

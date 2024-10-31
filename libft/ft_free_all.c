@@ -6,22 +6,23 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:03:41 by tcohen            #+#    #+#             */
-/*   Updated: 2024/08/19 20:04:14 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:47:14 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_free_all(char **tab)
+void	ft_free_all(char **tab)
 {
 	size_t	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
-		free(tab[i]);
+		g_free(tab[i]);
 		i++;
 	}
-	free(tab);
-	return (NULL);
+	g_free(tab);
 }

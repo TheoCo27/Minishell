@@ -6,13 +6,13 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 04:41:59 by theog             #+#    #+#             */
-/*   Updated: 2024/10/10 19:09:55 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 17:10:24 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int ft_is_redir_token(t_token *token)
+static int	ft_is_redir_token(t_token *token)
 {
 	if (token->type == INFILE)
 		return (1);
@@ -25,79 +25,82 @@ static int ft_is_redir_token(t_token *token)
 	return (0);
 }
 
-t_info_exec *ft_convert_redir_token(t_info_exec *cmd, t_token **array, int *i)
+t_info_exec	*ft_convert_redir_token(t_info_exec *cmd, t_token **array, int *i)
 {
-	t_file_lst *new;
+	t_file_lst	*new;
 
-    if (array[*i]->type == INFILE && array[(*i) + 1]->type == ARG)
-    {
+	if (array[*i]->type == INFILE && array[(*i) + 1]->type == ARG)
+	{
 		new = ft_newfile(array[(*i) + 1]->content, 'r');
 		if (!new)
-			return (ft_pipelst_clear_node(cmd), NULL);
-        ft_fileadd_back(&cmd->file_lst, new);
-    }
-    if (array[*i]->type == OUTFILE_APPEND && array[(*i) + 1]->type == ARG)
-    {
+			return (NULL);
+		ft_fileadd_back(&cmd->file_lst, new);
+	}
+	if (array[*i]->type == OUTFILE_APPEND && array[(*i) + 1]->type == ARG)
+	{
 		new = ft_newfile(array[(*i) + 1]->content, 'a');
 		if (!new)
-			return (ft_pipelst_clear_node(cmd), NULL);
-        ft_fileadd_back(&cmd->file_lst, new);
-    }
-    if (array[*i]->type == OUTFILE_TRUNCATE && array[(*i) + 1]->type == ARG)
-    {
+			return (NULL);
+		ft_fileadd_back(&cmd->file_lst, new);
+	}
+	if (array[*i]->type == OUTFILE_TRUNCATE && array[(*i) + 1]->type == ARG)
+	{
 		new = ft_newfile(array[(*i) + 1]->content, 'w');
 		if (!new)
-			return (ft_pipelst_clear_node(cmd), NULL);
-        ft_fileadd_back(&cmd->file_lst, new);
-    }
-    return (cmd);
+			return (NULL);
+		ft_fileadd_back(&cmd->file_lst, new);
+	}
+	return (cmd);
 }
 
 static t_info_exec	*ft_token_to_cmd(t_token *token, t_info_exec *cmd)
 {
 	cmd->cmd = ft_strdup(token->content);
 	if (!cmd->cmd)
-		return (ft_pipelst_clear_node(cmd), NULL);
+		return (NULL);
 	cmd->arg = ft_tabstr_addback(token->content, cmd->arg);
 	if (!cmd->arg)
-		return (ft_pipelst_clear_node(cmd), NULL);
+		return (NULL);
 	return (cmd);
 }
 
-static t_info_exec *ft_convert_heredoc_token(t_info_exec *cmd, t_token **array, int *i)
+t_info_exec	*ft_convert_heredoc_token(t_info_exec *cmd, t_token **array, int *i)
 {
-	t_file_lst *new;
+	t_file_lst	*new;
 
-    if (array[*i]->type == HEREDOC && array[(*i) + 1]->type == ARG)
-    {
+	if (array[*i]->type == HEREDOC && array[(*i) + 1]->type == ARG)
+	{
 		new = ft_newfile(array[(*i) + 1]->content, 'h');
 		if (!new)
-			return (ft_pipelst_clear_node(cmd), NULL);
-        ft_fileadd_back(&cmd->file_lst, new);
-    }
+			return (NULL);
+		ft_fileadd_back(&cmd->file_lst, new);
+	}
 	return (cmd);
 }
-t_info_exec *ft_token_to_exec(t_token **array)
+
+t_info_exec	*ft_token_to_exec(t_token **array)
 {
-	t_info_exec *cmd;
+	t_info_exec	*cmd;
 	int			i;
 
 	i = 0;
 	cmd = ft_pipelst_new();
 	if (!cmd)
 		return (NULL);
-	while(array[i])
+	while (array[i])
 	{
-		ft_convert_redir_token(cmd, array, &i);
+		if (ft_convert_redir_token(cmd, array, &i) == NULL)
+			return (NULL);
 		ft_convert_heredoc_token(cmd, array, &i);
 		if (array[i]->type == CMD)
 			if (ft_token_to_cmd(array[i], cmd) == NULL)
 				return (NULL);
-		if (i > 0 && array[i]->type == ARG && ft_is_redir_token(array[i - 1]) == 0)
+		if (i > 0 && array[i]->type == ARG
+			&& ft_is_redir_token(array[i - 1]) == 0)
 		{
 			cmd->arg = ft_tabstr_addback(array[i]->content, cmd->arg);
 			if (!cmd->arg)
-				return (ft_pipelst_clear_node(cmd), NULL);
+				return (NULL);
 		}
 		i++;
 	}

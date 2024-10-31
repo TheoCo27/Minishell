@@ -6,7 +6,7 @@
 /*   By: vispinos <vispinos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:38:02 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/10 11:37:58 by vispinos         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:14:59 by vispinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ int	ft_cd(char **array, t_state *s)
 	char	**export_param;
 	char	*str;
 
+	if (sal(array) < 2)
+	{
+		ft_putendl_fd("minishell: cd: void path not accepted", 2);
+		return (2);
+	}
 	if (chdir(array[1]) != 0)
 	{
-		// voir si Théo veut + pousser l'exec / la gestion des erreurs
-		ft_putstr_fd("error: cd: cannot change directory to ", 2);
-		ft_putendl_fd(array[1], 2);
+		perror(array[1]);
 		return (1);
 	}
 	getcwd(absolute_dest, PATH_MAX);

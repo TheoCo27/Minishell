@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_sig.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 22:22:48 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/13 19:51:04 by tcohen           ###   ########.fr       */
+/*   Created: 2024/10/17 22:17:42 by tcohen            #+#    #+#             */
+/*   Updated: 2024/10/26 17:06:33 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
+int	in_heredoc(int update)
 {
-	size_t	i;
-	size_t	len_s;
-	char	*str;
+	static int	in_heredoc;
 
-	len_s = ft_strlen(s);
-	str = (char *)g_malloc((sizeof(char)) * (len_s + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = (*f)(i, s[i]);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	if (update == 1)
+		in_heredoc = 1;
+	if (update == -1)
+		in_heredoc = 0;
+	return (in_heredoc);
 }

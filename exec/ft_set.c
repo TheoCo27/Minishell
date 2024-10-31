@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_set.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:04:24 by tcohen            #+#    #+#             */
-/*   Updated: 2024/09/29 16:09:15 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/26 17:06:04 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int	ft_execve_stuff(t_info_exec *info)
 		return (ft_free_all(info->arg), 1);
 	info->cmd = ft_strdup(info->cmd);
 	if (!info->cmd)
-		return (free(info->path), ft_free_all(info->arg), 1);
+		return (g_free(info->path), ft_free_all(info->arg), 1);
 	info->t_path = ft_split(info->cmd, ' ');
 	if (!info->t_path)
-		return (free(info->cmd), free(info->path), ft_free_all(info->arg), 1);
+		return (g_free(info->cmd), g_free(info->path),
+			ft_free_all(info->arg), 1);
 	return (0);
 }

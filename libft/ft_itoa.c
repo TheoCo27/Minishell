@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 21:00:32 by tcohen            #+#    #+#             */
-/*   Updated: 2024/06/05 14:35:59 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/13 19:51:04 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_itoa(int n)
 		sign = 1;
 	}
 	len = int_len(nb);
-	str = (char *)malloc((sizeof(char)) * (len + 1 + sign));
+	str = (char *)g_malloc((sizeof(char)) * (len + 1 + sign));
 	if (!str)
 		return (NULL);
 	return (ft_exec(str, nb, sign, len));

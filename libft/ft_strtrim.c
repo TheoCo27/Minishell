@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:57:04 by tcohen            #+#    #+#             */
-/*   Updated: 2024/08/21 13:53:53 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/13 19:51:04 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	len_trim = ft_getlen(s1, set, 0);
 	i = 0;
 	i_start = ft_getlen(s1, set, 1);
-	s_trim = (char *)malloc((sizeof(char)) * (len_trim + 1));
+	s_trim = (char *)g_malloc((sizeof(char)) * (len_trim + 1));
 	if (!s_trim)
 		return (NULL);
 	while (i < len_trim)

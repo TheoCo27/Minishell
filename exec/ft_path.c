@@ -6,7 +6,7 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:28:28 by tcohen            #+#    #+#             */
-/*   Updated: 2024/08/29 18:03:13 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 16:57:43 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	ft_getenv_path(char **env, t_info_exec *info)
 				return (ft_free_all(info->arg), 1);
 			info->t_path = ft_split(path, ':');
 			if (!info->t_path)
-				return (free(path), ft_free_all(info->arg), 1);
-			free(path);
+				return (g_free(path), ft_free_all(info->arg), 1);
+			g_free(path);
 			return (0);
 		}
 		temp++;
@@ -47,10 +47,11 @@ int	ft_check_ifpath(t_info_exec *info)
 		return (ft_free_all(info->arg), 2);
 	info->cmd = ft_strdup(info->cmd);
 	if (!info->cmd)
-		return (free(info->path), ft_free_all(info->arg), 2);
+		return (g_free(info->path), ft_free_all(info->arg), 2);
 	info->t_path = ft_split(info->cmd, ' ');
 	if (!info->t_path)
-		return (free(info->cmd), free(info->path), ft_free_all(info->arg), 2);
+		return (g_free(info->cmd), g_free(info->path),
+			ft_free_all(info->arg), 2);
 	return (1);
 }
 
@@ -67,16 +68,17 @@ int	ft_find_cmd(t_info_exec *info)
 	{
 		path = ft_strjoin(*path_tab, info->cmd);
 		if (!path)
-			return (free(info->cmd), ft_free_all(info->arg), 1);
+			return (g_free(info->cmd), ft_free_all(info->arg), 1);
 		if (access(path, F_OK) == 0)
 		{
 			info->path = ft_strdup(path);
 			if (!info->path)
-				return (free(path), free(info->cmd), ft_free_all(info->arg), 1);
-			free(path);
+				return (g_free(path), g_free(info->cmd),
+					ft_free_all(info->arg), 1);
+			g_free(path);
 			return (0);
 		}
-		free(path);
+		g_free(path);
 		path_tab++;
 	}
 	return (2);
@@ -89,8 +91,8 @@ int	ft_path_bis(int find_cmd, t_info_exec *info)
 		info->path = ft_strdup(info->cmd + 1);
 		if (!info->path)
 		{
-			free(info->path);
-			free(info->cmd);
+			g_free(info->path);
+			g_free(info->cmd);
 			ft_free_all(info->arg);
 			return (1);
 		}

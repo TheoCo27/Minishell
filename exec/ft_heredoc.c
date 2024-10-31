@@ -3,66 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:59:29 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/11 18:17:58 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/26 16:29:08 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../signal/ft_signal.h"
 
-// int	ft_open(char *file_name, char mode, t_info_exec *info)
-// {
-// 	int	fd;
-
-// 	if (mode == 'h')
-// 		fd = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
-// 	if (fd < 0)
-// 	{
-// 		perror(file_name);
-// 		ft_close_pipe(info->pipe_fd);
-// 		//ft_close_remaining_pipes(cmd, lst);
-// 		//ft_pipelst_clear(lst);
-// 		exit(errno);
-// 	}
-// 	return (fd);
-// }
-
-static char	*ft_anti_fuck_heredoc(char *file_name)
+static void	fill_h_init(char *line, size_t *limiter_len, t_file_lst *file)
 {
-	while(access(file_name, F_OK) == 0)
-	{
-		file_name = ft_strfree_s1_join(file_name, "1");
-		if (!file_name)
-			return (free(file_name), NULL);
-	}
-	return (file_name);
+	line = NULL;
+	*limiter_len = ft_strlen(file->delimiter);
+	set_heredoc_sig();
+	in_heredoc(1);
+	(void)line;
 }
 
-int	ft_name_heredocs(t_info_exec **lst)
+int	ft_fill_heredoc(t_file_lst *file, char *line, size_t limiter_len)
 {
-	t_info_exec *cmd;
+	fill_h_init(line, &limiter_len, file);
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line || g_signal != 0)
+		{
+			if (g_signal != 0)
+				return (in_heredoc(-1), -1);
+			error_ctrl_d(file->delimiter);
+			break ;
+		}
+		if (ft_strncmp(line, file->delimiter, limiter_len) == 0)
+		{
+			g_free(line);
+			break ;
+		}
+		file->heredoc_content = ft_tabstr_addback(line, file->heredoc_content);
+		if (!file->heredoc_content)
+			return (g_free(line), -1);
+		g_free(line);
+	}
+	in_heredoc(-1);
+	set_parent_exec_sig();
+	return (0);
+}
+
+int	ft_fill_all_heredocs(t_info_exec **lst)
+{
+	t_info_exec	*cmd;
 	t_file_lst	*file;
-	char		*name;
+	char		*line;
+	size_t		limiter_len;
 
 	cmd = *lst;
-	name = ft_strdup("heredoc");
-	if (!name)
-		return (-1);
-	while(cmd)
+	line = NULL;
+	limiter_len = 0;
+	while (cmd)
 	{
 		file = cmd->file_lst;
-		while(file)
+		while (file)
 		{
 			if (file->type == 'h')
 			{
-				name = ft_strfree_s1_join(name, "1");
-				name = ft_anti_fuck_heredoc(name);
-				if (!name)
-					return (-1);
-				file->name = ft_strdup(name);
-				if (!file->name)
+				if (ft_fill_heredoc(file, line, limiter_len) == -1)
 					return (-1);
 			}
 			file = file->next;
@@ -72,91 +77,16 @@ int	ft_name_heredocs(t_info_exec **lst)
 	return (0);
 }
 
-
-int ft_fill_all_heredocs(t_info_exec **lst)
+int	ft_destroy_heredocs(t_info_exec **lst)
 {
-	t_info_exec *cmd;
+	t_info_exec	*cmd;
 	t_file_lst	*file;
 
 	cmd = *lst;
-	while(cmd)
+	while (cmd)
 	{
 		file = cmd->file_lst;
-		while(file)
-		{
-			if (file->type == 'h')
-				ft_fill_heredoc(file->delimiter, file->name, cmd, lst);
-			file = file->next;
-		}
-		cmd = cmd->next;
-	}
-	return (0);
-}
-
-// int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst)
-// {
-// 	char	*line;
-// 	size_t	limiter_len;
-// 	int		fd;
-	
-// 	fd = ft_open(filename, 'h', cmd, lst);
-// 	line = NULL;
-// 	limiter_len = ft_strlen(limiter);
-// 	// if (ft_checkif_heredoc() == 1)
-// 	// 	ft_fill_heredoc(limiter, filename, cmd, lst);
-// 	while(1)
-// 	{
-// 		ft_putstr_fd("heredoc> ", 1);
-// 		line = get_next_line(0);
-// 		if (!line)
-// 			break;
-// 		if (ft_strncmp(line, limiter, limiter_len) == 0 && line[limiter_len] == '\n')
-// 		{
-// 			free(line);
-// 			break;
-// 		}
-// 		ft_putstr_fd(line, fd);
-// 		free(line);
-// 	}
-// 	close (fd);
-// 	return (0);
-// }
-int ft_fill_heredoc(char *limiter, char *filename, t_info_exec *cmd, t_info_exec **lst)
-{
-	char	*line;
-	size_t	limiter_len;
-	int		fd;
-	
-	fd = ft_open(filename, 'h', cmd, lst);
-	line = NULL;
-	limiter_len = ft_strlen(limiter);
-	while(1)
-	{
-		line = readline("heredoc> ");
-		if (!line)
-			break;
-		if (ft_strncmp(line, limiter, limiter_len) == 0)
-		{
-			free(line);
-			break;
-		}
-		ft_putendl_fd(line, fd);
-		free(line);
-	}
-	close (fd);
-	return (0);
-}
-
-int ft_destroy_heredocs(t_info_exec **lst)
-{
-	t_info_exec *cmd;
-	t_file_lst	*file;
-
-	cmd = *lst;
-	while(cmd)
-	{
-		file = cmd->file_lst;
-		while(file)
+		while (file)
 		{
 			if (file->type == 'h')
 			{
@@ -168,11 +98,12 @@ int ft_destroy_heredocs(t_info_exec **lst)
 	}
 	return (0);
 }
-t_heredoc *ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst)
-{
-	t_heredoc *h;
 
-	h = malloc(sizeof(t_heredoc) * 1);
+t_heredoc	*ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst)
+{
+	t_heredoc	*h;
+
+	h = g_malloc(sizeof(t_heredoc) * 1);
 	if (!h)
 		return (NULL);
 	h->heredoc_name = ft_strdup("heredoc");
@@ -184,51 +115,3 @@ t_heredoc *ft_make_heredoc(t_info_exec *cmd, t_info_exec **lst)
 	h->fd_heredoc = ft_open(h->heredoc_name, 'h', cmd, lst);
 	return (h);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	t_heredoc *h;
-// 	char *line;
-// 	int i = 1;
-
-// 	char c = 'a';
-// 	line = &c;
-// 	if (argc < 2)
-// 	{
-// 		ft_putstr_fd("error need ./hey_doc <your_limiter>", 2);
-// 		exit(1);
-// 	}
-// 	h = ft_make_heredoc(argv[1]);
-// 	while(argv[i])
-// 	{
-// 		ft_fill_heredoc(argv[i], h->fd_heredoc);
-// 		i++;
-// 	}
-// 	close(h->fd_heredoc);
-// 	h->fd_heredoc = ft_open(h->heredoc_name, 'r');
-// 	while(line)
-// 	{
-// 		line = get_next_line(h->fd_heredoc);
-// 		if (!line)
-// 			break;
-// 		ft_putstr_fd(line, 1);
-// 		free(line);
-// 	}
-// 	ft_destroy_heredoc(h);
-// 	return (0);
-
-// }
-
-// int	main(void)
-// {
-// 	char buffer[1024];
-// 	int read_output;
-
-// 	while((read_output = read(0, buffer, sizeof(buffer) - 1)) > 0)
-// 	{
-// 		buffer[read_output] = '\0';
-// 		printf("ligne lue : %s\n", buffer);
-// 	}
-// 	printf("fin du heredoc");
-// 	return (0);
-// }

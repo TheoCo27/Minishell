@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   signal_bis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 22:22:48 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/13 19:51:04 by tcohen           ###   ########.fr       */
+/*   Created: 2024/10/26 15:19:39 by tcohen            #+#    #+#             */
+/*   Updated: 2024/10/26 18:19:08 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_signal.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
+int	sig_event(void)
 {
-	size_t	i;
-	size_t	len_s;
-	char	*str;
+	return (EXIT_SUCCESS);
+}
 
-	len_s = ft_strlen(s);
-	str = (char *)g_malloc((sizeof(char)) * (len_s + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = (*f)(i, s[i]);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+void	set_parent_exec_sig(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }

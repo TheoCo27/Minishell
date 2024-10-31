@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_functions.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/26 18:03:52 by tcohen            #+#    #+#             */
+/*   Updated: 2024/10/26 18:03:53 by tcohen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 void	print_token(t_token *token)
@@ -38,7 +50,7 @@ void	print_array(t_token **array)
 		return ;
 	}
 	i = 0;
-	while(array[i])
+	while (array[i])
 	{
 		printf("\nToken %i:\n", i);
 		print_token(array[i]);
@@ -50,7 +62,6 @@ void	print_main_array(t_token ***main_array)
 {
 	int	i;
 
-
 	if (!main_array)
 	{
 		printf("\nNull Main Array\n");
@@ -58,7 +69,7 @@ void	print_main_array(t_token ***main_array)
 	}
 	i = 0;
 	printf("\nPRINTING MAIN ARRAY :\n");
-	while(main_array[i])
+	while (main_array[i])
 	{
 		printf("\nSUB ARRAY %i:\n", i);
 		print_array(main_array[i]);

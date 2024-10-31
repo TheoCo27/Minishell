@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theog <theog@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 22:09:25 by theog             #+#    #+#             */
-/*   Updated: 2024/10/09 23:20:25 by theog            ###   ########.fr       */
+/*   Updated: 2024/10/26 17:14:31 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,24 @@ t_file_lst	*ft_newfile(char *content, char type)
 {
 	t_file_lst	*new;
 
-	new = (t_file_lst *)malloc(sizeof(t_file_lst));
+	new = (t_file_lst *)g_malloc(sizeof(t_file_lst));
 	if (!new)
 		return (NULL);
-    new->type = type;
+	new->type = type;
 	new->next = NULL;
-    if (type != 'h')
-	    new->name = content;
-    if (type == 'h')
-    {
-        new->name = NULL;
-        new->delimiter = content;
-    }
+	if (type != 'h')
+	{
+		new->name = content;
+		new->heredoc_content = NULL;
+	}
+	if (type == 'h')
+	{
+		new->name = NULL;
+		new->delimiter = content;
+		new->heredoc_content = ft_make_tabstr();
+		if (!new->heredoc_content)
+			return (g_free(new), NULL);
+	}
 	return (new);
 }
 
@@ -68,26 +74,25 @@ void	ft_filelstclear(t_file_lst **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-        //free ce que y a free
-		free(*lst);
+		g_free(*lst);
 		*lst = temp;
 	}
 	*lst = NULL;
 }
 
-void    ft_print_filelst(t_file_lst **lst)
+void	ft_print_filelst(t_file_lst **lst)
 {
-    t_file_lst *temp;
+	t_file_lst	*temp;
 
-    temp = (*lst);
-    while(temp)
-    {
-        if (temp->name)
-            printf("file name: %s\n", temp->name);
-        if (temp->delimiter)
-            printf("file delimiter: %s\n", temp->delimiter);
-        if (temp->type)
-            printf("file type: %c\n", temp->type);
-        temp = temp->next;
-    }
+	temp = (*lst);
+	while (temp)
+	{
+		if (temp->name)
+			printf("file name: %s\n", temp->name);
+		if (temp->delimiter)
+			printf("file delimiter: %s\n", temp->delimiter);
+		if (temp->type)
+			printf("file type: %c\n", temp->type);
+		temp = temp->next;
+	}
 }

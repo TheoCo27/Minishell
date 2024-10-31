@@ -6,11 +6,13 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:03:47 by vispinos          #+#    #+#             */
-/*   Updated: 2024/10/10 19:19:14 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 18:35:35 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef PARSING_H
+# define PARSING_H
+# include "../minishell.h"
 
 /*
 nvl : next var len
@@ -42,6 +44,7 @@ typedef struct s_token_array_maker
 	int		last_token_spe;
 	int		next_quote;
 	int		word_len;
+	int		error;
 	t_msh	msh;
 }			t_am;
 
@@ -72,8 +75,8 @@ garbage_collector.c
 t_list	*new_gc(t_state *s);
 void	*ft_malloc(size_t size, t_list **gc, t_state *s);
 void	destroy_gc(t_list *gc);
-void	shallow_clear_gc(t_list *gc, char **env);
-
+void	ft_free(void *ptr, t_list **gc);
+void	shallow_clear(t_list **gc, char **env);
 /*
 make_token_and_append.c
 */
@@ -92,6 +95,16 @@ parsing_main.c
 void	ft_stx_err(char *str);
 t_token	**make_token_array(char *line, t_token **token_array, t_state *s);
 t_token	***parseline(t_state *s, char *line);
+
+/* parsing_main2.c && parsing_main3.c */
+int		h(t_am *am, char **line, t_token ***token_array, t_state *s);
+int		i(t_am *am, char **line, t_token ***token_array, t_state *s);
+int		oa(t_am *am, char **line, t_token ***token_array, t_state *s);
+int		ot(t_am *am, char **line, t_token ***token_array, t_state *s);
+int		p(t_am *am, char **line, t_token ***token_array, t_state *s);
+void	nqstr(t_am *am, char **line, t_token ***token_array, t_state *s);
+int		sqstr(t_am *am, char **line, t_token ***token_array, t_state *s);
+void	dqstr(t_am *am, char **line, t_token ***token_array, t_state *s);
 
 /*
 parsing_main_helpers.c
@@ -127,3 +140,4 @@ t_token	***ft_split_array_tokens(t_token **t_a, int type, t_state *s);
 void	print_token(t_token *token);
 void	print_array(t_token **array);
 void	print_main_array(t_token ***main_array);
+#endif

@@ -6,11 +6,12 @@
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:48:02 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/06 18:22:54 by tcohen           ###   ########.fr       */
+/*   Updated: 2024/10/26 17:05:28 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../signal/ft_signal.h"
 
 int	ft_open(char *file_name, char mode, t_info_exec *info, t_info_exec **lst)
 {
@@ -27,10 +28,14 @@ int	ft_open(char *file_name, char mode, t_info_exec *info, t_info_exec **lst)
 	if (fd < 0)
 	{
 		perror(file_name);
-		ft_close_pipe(info->pipe_fd);
-		ft_close_remaining_pipes(info, lst);
-		ft_pipelst_clear(lst);
-		exit(errno);
+		if (info->pid == 0 && ft_pipelst_size(*lst) > 1)
+			ft_close_remaining_pipes(info, lst);
+		if (info->pid != 0)
+			return (-1);
+		rl_clear_history();
+		destroy_gc(info->state->gc);
+		garbage_destroy();
+		exit(1);
 	}
 	return (fd);
 }
@@ -49,14 +54,25 @@ int	ft_dup2(int old_fd, int new_fd)
 
 int	ft_execve(t_info_exec *cmd, t_info_exec **lst)
 {
-	if (execve(cmd->path, cmd->arg, cmd->env) == -1)
+	char	*error_str;
+
+	if (execve(cmd->path, cmd->arg, cmd->state->env) == -1)
 	{
-		perror(cmd->path);
-		ft_clean_info(cmd);
+		if (errno != ENOENT)
+			perror(cmd->arg[0]);
+		if (errno == ENOENT)
+		{
+			error_str = ft_strjoin(cmd->arg[0], ": Command not found\n");
+			if (!error_str)
+				return (garbage_destroy(), 1);
+			ft_putstr_fd(error_str, 2);
+		}
 		if (ft_pipelst_size(*lst) > 1)
 			ft_close_remaining_pipes(cmd, lst);
-		ft_pipelst_clear(lst);
-		exit (errno);
+		rl_clear_history();
+		destroy_gc(cmd->state->gc);
+		garbage_destroy();
+		exit (errno_to_exit_code(errno));
 	}
 	return (-1);
 }
@@ -68,32 +84,28 @@ int	ft_pipe(int fd[2], t_info_exec	**lst, t_info_exec *cmd)
 	temp = *lst;
 	if (pipe(fd) == -1)
 	{
-		while(temp)
+		while (temp)
 		{
 			if (temp == cmd)
-				break;
+				break ;
 			ft_close_pipe(temp->pipe_fd);
 		}
-		ft_pipelst_clear(lst);
 		perror("pipe failed");
-		exit(errno);
+		return (-1);
 	}
 	return (0);
 }
 
-int ft_fork(t_info_exec *cmd, t_info_exec **lst)
+int	ft_fork(t_info_exec *cmd, t_info_exec **lst)
 {
-	int status;
-
-	status = 0;
+	(void)lst;
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 	{
 		ft_putendl_fd("Error fork", 2);
-		status = ft_wait_pids(*lst, status);
-		ft_close_allpipes(*lst);
-		ft_pipelst_clear(lst);
-		exit(status);
+		return (-1);
 	}
-	return (status);
+	if (cmd->pid == 0)
+		set_exec_sig();
+	return (0);
 }

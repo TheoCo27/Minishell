@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_signal.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcohen <tcohen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 22:22:48 by tcohen            #+#    #+#             */
-/*   Updated: 2024/10/13 19:51:04 by tcohen           ###   ########.fr       */
+/*   Created: 2024/10/17 18:12:57 by tcohen            #+#    #+#             */
+/*   Updated: 2024/10/26 18:05:54 by tcohen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_SIGNAL_H
+# define FT_SIGNAL_H
 
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
-{
-	size_t	i;
-	size_t	len_s;
-	char	*str;
+# include "../minishell.h"
+# include "../exec/pipex.h"
+# include <signal.h>
 
-	len_s = ft_strlen(s);
-	str = (char *)g_malloc((sizeof(char)) * (len_s + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = (*f)(i, s[i]);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
+void	set_sig(void);
+void	set_heredoc_sig(void);
+void	set_exec_sig(void);
+int		sig_event(void);
+void	set_parent_exec_sig(void);
+
+#endif
